@@ -1,3 +1,4 @@
+###
 class Element
     constructor: (attr) ->
         @start = attr.start
@@ -64,7 +65,8 @@ class Element
                 )
             )
 
-            Meteor.call "finish_element", player(), score
+            #Meteor.call "finish_element", player(), score
 
     isDone: ->
         @isDone
+    ###

@@ -1,45 +1,63 @@
 class Canvas
 
-    constructor: (id) ->
-        @canvas = document.getElementById id
-        image = document.createElement("img")
+    constructor: (id, @game) ->
+        @init()
 
-        @initCoverage()
+    init: ->
+        @createCanvas()
+
+        image = document.createElement("img")
         @initImage image
+
         @initListeners()
 
+    createCanvas: ->
+        @canvas = document.createElement("canvas")
+
+        @canvas.setAttribute "width", GAME_WIDTH + "px"
+        @canvas.setAttribute "height", GAME_HEIGHT + "px"
+
+        $(".process").append(@canvas)
+
+    reset: ->
+        $(@canvas).remove()
+
+        @init()
+
     initListeners: ->
-        that = @
+        touch = (touches) =>
+            @drawPoint touches[0].pageX, touches[0].pageY
 
-        touch = (touches) ->
-            that.drawPoint touches[0].screenX, touches[0].screenY
-
-        canvas = $(@canvas)
-
-        canvas.on "touchstart", (event) ->
-            touch event.touches
-
-        canvas.on "touchmove", (event) ->
+        @canvas.addEventListener("touchstart", (event) ->
+            touch event.targetTouches
+        , false)
+            
+        @canvas.addEventListener("touchmove", (event) ->
             event.preventDefault()
 
-            touch event.touches
+            touch event.targetTouches
+        , false)
 
         #TODO: Debug switch?
-        canvas.on "mousemove", (event) ->
+        $(@canvas).on "mousemove", (event) =>
             event.preventDefault()
 
-            that.drawPoint event.screenX, event.screenY
+            @drawPoint event.pageX, event.pageY
 
     initCoverage: ->
-        @coverage = new Coverage @canvas
+        @coverage = new Coverage @canvas, @game
 
         #TODO: read from config
-        @coverage.initCoverage 953, 505
+        @coverage.initCoverage GAME_WIDTH, GAME_HEIGHT
+
+        $(@canvas).css(
+            "background-image": "url('" + MEDIA_ROOT + "images/" + @game.getModelImage() + "')"
+        )
 
     initImage: (image) ->
         context = @canvas.getContext "2d"
 
-        $(image).load(->
+        $(image).load(=>
             context.beginPath()
             context.drawImage image, 0, 0
             context.closePath()
@@ -60,6 +78,12 @@ class Canvas
 
         @createGradient x, y
 
+    getHeight: ->
+        $(@canvas).height()
+
+    getWidth: ->
+        $(@canvas).width()
+
     createGradient: (x, y) ->
         context = @canvas.getContext "2d"
         
@@ -68,8 +92,10 @@ class Canvas
         gradient.addColorStop 0, "rgba(255, 255, 255, .6)"
         gradient.addColorStop 1, "transparent"
 
+        radius = 100
+
         context.fillStyle = gradient
         context.beginPath()
-        context.arc x, y, 100, 0, Math.PI * 2, yes
+        context.arc x, y, radius, 0, Math.PI * 2, yes
         context.fill()
         context.closePath()

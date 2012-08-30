@@ -1,8 +1,8 @@
 class Coverage
-    constructor: (@canvas) ->
+    constructor: (@canvas, @game) ->
         @cover = []
 
-        @elements = loadModel().map((el) ->
+        @elements = game.getModelData().map((el) ->
             new Element(el)
         )
 
@@ -26,7 +26,10 @@ class Coverage
             element.touch x, y, radius
 
             if element.coverage() > 0.9
-                element.done(@canvas, @getStatus(true) * 100)
+                element.done(@canvas)
+
+                if @getStatus() is @elements.length
+                    @game.finish()
 
     getStatus: (emulate = no) ->
         done = if emulate then 1 else 0
@@ -34,3 +37,5 @@ class Coverage
         for el in @elements
             if el.isDone()
                 done++
+
+        return done

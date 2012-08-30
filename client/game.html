@@ -1,0 +1,81 @@
+<head>
+    <title>Rub the Process</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Headland+One' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="process-wrap">
+            <div class="process">
+                
+            </div>
+
+            {{> landing }}
+            {{> finished }}
+
+            <div class="score-wrap">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+<template name="scores">
+    <div class="scores well">
+        <h6>Punkte</h6>
+        
+        <br />
+
+        <strong>{{ score }}</strong>
+    </div>
+</template>
+
+<template name="landing">
+    <div class="start">
+        <div class="center well">
+            <h2>Rub-the-Process</h2>
+
+            <br />
+
+            Wenn Sie auf <strong>Start</strong> tippen beginnt ein neues Spiel. Rubbeln Sie so schnell, wie möglich alle Elemente im versteckten Prozess frei. Auf die schnellsten Rubbler wartet ein ansehnlicher Platz in der Highscore-Liste.
+
+            <br /><br /><br />
+
+            <button class="btn btn-large btn-primary">Spiel starten</button>
+        </div>
+    </div>
+</template>
+
+<template name="finished">
+    <div class="finished" style="display:none">
+        <div class="center well">
+            <h2>Herzlichen Glückwunsch</h2>
+
+            <br />
+
+            Sie haben alle Elemente freigerubbelt! Insgesamt haben Sie damit <strong>{{ score }}</strong> Punkte ergattert! Wenn Sie uns jetzt noch Ihren Namen verraten, können Sie sich in die Highscore Liste eintragen lassen. 
+
+            <br /><br />
+
+            <div class="input-append">
+                <input type="text" placeholder="Ihr Name" /><button class="btn btn-primary btn-large">Speichern</button>
+            </div>
+
+            <hr />
+
+            Falls es dieses mal nicht so gut gelaufen ist, können Sie es auch gern noch einmal probieren oder einen anderen Prozess freirubbeln. 
+
+            <br /><br />
+
+            <button class="btn btn-link btn-large">Noch einmal probieren</button>
+            <button class="btn btn-success btn-large next">Nächster Prozess</button>
+
+        </div>
+    </div>
+</template>
