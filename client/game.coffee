@@ -23,8 +23,8 @@ class Game
         @scores.hide()
 
         button.on "click", =>
-            start.hide()
-            @scores.show()
+            start.fadeOut(200)
+            @scores.fadeIn(200)
 
             @running = yes
 
@@ -71,6 +71,8 @@ class Game
         $(".tick").each (index, el) ->
             $(el).remove()
 
+        @unscnapScore()
+
     nextModel: ->
         @reset()
 
@@ -82,13 +84,33 @@ class Game
         @reset()
         @load(@currentModel)
 
-        $(".finished").hide()
+        $(".finished").fadeOut(200)
+
+    snapScore: ->
+        $(".score-wrap").transition(
+            x: -230
+            y: 50
+            duration: 1500
+            rotate: 20
+            easing: "snap"
+        )
+
+    unscnapScore: ->
+        $(".score-wrap").transition(
+            x: 0
+            y: 0
+            duration: 1500
+            rotate: 0
+            easing: "snap"
+        )
 
     finish: ->
         @running = no
         @finished = yes
 
-        $(".finished").show();
+        $(".finished").fadeIn(200);
+
+        @snapScore()
 
         $(".finished button.next").on "click", =>
             @nextModel()
