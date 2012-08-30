@@ -8,7 +8,7 @@ class Tick
 
         @parent.append el
 
-        el.css(
+        el.addClass("tick").css(
             "background-image": "url("+ MEDIA_ROOT + "images/tick.png)"
             width: "32px"
             height: "32px"

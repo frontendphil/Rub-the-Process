@@ -68,10 +68,19 @@ class Game
 
         @canvas.reset()
 
+        $(".tick").each (index, el) ->
+            $(el).remove()
+
     nextModel: ->
-        @reset(yes)
+        @reset()
 
         @load(@currentModel + 1)
+
+        $(".finished").hide()
+
+    restart: ->
+        @reset()
+        @load(@currentModel)
 
         $(".finished").hide()
 
@@ -83,5 +92,8 @@ class Game
 
         $(".finished button.next").on "click", =>
             @nextModel()
+
+        $(".finished button.restart").on "click", =>
+            @restart()
 
         @alignElements()
