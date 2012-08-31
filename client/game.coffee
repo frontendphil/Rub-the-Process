@@ -75,16 +75,11 @@ class Game
 
     nextModel: ->
         @reset()
-
         @load(@currentModel + 1)
-
-        $(".finished").hide()
 
     restart: ->
         @reset()
         @load(@currentModel)
-
-        $(".finished").fadeOut(200)
 
     snapScore: ->
         $(".score-wrap").transition(
@@ -102,7 +97,32 @@ class Game
             duration: 1500
             rotate: 0
             easing: "snap"
-        )
+        )        
+
+    addHighscore: (name) ->
+        Highscores.insert(
+            name: name
+            score: Session.get "score"
+        )        
+
+        Meteor.defer => 
+            $(".finished").fadeOut 200, null, =>
+                @scores.fadeOut 200
+
+                $(".highscores").fadeIn 200, null, =>
+                    @alignElements()
+
+            $(".highscores button.next").on "click", =>
+                $(".highscores").fadeOut 200, null, =>
+                    @scores.fadeIn 200
+
+                    @nextModel()
+
+            $(".highscores button.restart").on "click", =>
+                $(".highscores").fadeOut 200, null, =>
+                    @scores.fadeIn 200
+
+                    @restart()
 
     finish: ->
         @running = no
@@ -114,8 +134,13 @@ class Game
 
         $(".finished button.next").on "click", =>
             @nextModel()
+            $(".finished").fadeOut(200)
 
         $(".finished button.restart").on "click", =>
             @restart()
+            $(".finished").fadeOut(200)
+
+        $(".finished button.save").on "click", =>
+            @addHighscore($(".finished input.name").val())
 
         @alignElements()

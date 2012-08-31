@@ -1,16 +1,25 @@
-player = ->
-    if Session.get "player" 
-        Players.findOne({_id: Session.get "player"}) 
-
-    Meteor.call "new_player"
-
-    #player()
-
 Template.scores.score = ->
     pad Session.get("score") or 0
 
 Template.finished.score = ->
     Session.get "score"
+
+Template.finished.name = ->
+    Session.get("name") or ""
+
+Template.highscore_list.scores = ->
+    Highscores.find({}, {sort: { score : -1 }})
+
+Handlebars.registerHelper "each_index", (array, fn) ->
+    buffer = ""
+
+    for i in array.fetch()
+        item = i
+        item.index = _i + 1
+
+        buffer += fn(item)
+
+    buffer
 
 pad = (number) ->
     str = "" + number
@@ -23,10 +32,9 @@ pad = (number) ->
 game = null
 
 Meteor.startup(->
-    #if Meteor.is_client
-        #Meteor.autosubscribe ->
-         #   Meteor.subscribe "highscores"
-          #  Meteor.subscribe "players"
+    if Meteor.is_client
+        Meteor.autosubscribe ->
+            Meteor.subscribe "highscores"
 
     $(".score-wrap").append(Meteor.ui.render(->
         Template.scores()

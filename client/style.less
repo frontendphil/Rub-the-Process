@@ -1,8 +1,8 @@
 @game-width: 1024px;
 @game-height: 624px;
 
-//@media-root: "/";
-@media-root: "http://192.168.178.30/";
+@media-root: "/";
+//@media-root: "http://192.168.178.30/";
 @fancy-font: 'Headland One', serif;
 
 body {
@@ -32,6 +32,21 @@ body {
 
 .start {
 	.modal;
+}
+
+.highscores {
+	.modal;
+}
+
+.highscores .score-list {
+	overflow-y: scroll;
+
+	height: 300px;
+}
+
+.score-list .rank {
+	width: 30px;
+	text-align: center;
 }
 
 .finished {
@@ -68,7 +83,7 @@ body {
 	position: absolute;
 	
 	top: 20px;
-	right: 20px;
+	right: 60px;
 
 	z-index: 2000;
 }
@@ -106,7 +121,7 @@ body {
 
 .process-wrap, .process {                    
     width: @game-width;
-    height: @game-width;
+    height: @game-height;
 
     position: relative
 }

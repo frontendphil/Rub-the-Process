@@ -15,6 +15,7 @@
 
             {{> landing }}
             {{> finished }}
+            {{> highscores }}
 
             <div class="score-wrap">
 
@@ -43,7 +44,7 @@
 
             <br />
 
-            Wenn Sie auf <strong>Start</strong> tippen beginnt ein neues Spiel. Rubbeln Sie so schnell, wie möglich alle Elemente im versteckten Prozess frei. Auf die schnellsten Rubbler wartet ein ansehnlicher Platz in der Highscore-Liste.
+            Wenn Sie auf <strong>Spiel starten</strong> tippen beginnt ein neues Spiel. Rubbeln Sie so schnell, wie möglich alle Elemente im versteckten Prozess frei. Auf die schnellsten Rubbler wartet ein ansehnlicher Platz in der Highscore-Liste.
 
             <br /><br /><br />
 
@@ -64,7 +65,7 @@
             <br /><br />
 
             <div class="input-append">
-                <input type="text" placeholder="Ihr Name" /><button class="btn btn-primary btn-large">Speichern</button>
+                <input type="text" placeholder="Ihr Name" value="{{ name }}" class="name" /><button class="btn btn-primary btn-large save">Speichern</button>
             </div>
 
             <hr />
@@ -73,9 +74,56 @@
 
             <br /><br />
 
-            <button class="btn btn-link btn-large restart">Noch einmal probieren</button>
-            <button class="btn btn-success btn-large next">Nächster Prozess</button>
+            {{> buttons}}
 
         </div>
     </div>
 </template>
+
+<template name="highscores">
+    <div class="highscores" style="display:none">
+        <div class="center well">
+            <h2>Highscores</h2>
+
+            <br />
+
+            Sie haben es auf den <strong>{{ rank }}.</strong> Platz geschafft!
+
+            <hr />
+
+            <div class="score-list">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="rank">#</th>
+                            <th>Spieler</th>
+                            <th>Punkte</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{> highscore_list }}
+                    </tbody>
+                </table>
+            </div>
+
+            <hr />
+
+            {{> buttons }}
+        </div>
+    </div>
+</template>
+
+<template name="highscore_list">
+    {{#each_index scores}}
+        <tr>
+            <td class="rank">{{index}}</td>
+            <td>{{name}}</td>
+            <td>{{score}}</td>
+        </tr>
+    {{/each_index}}
+</template>
+
+<template name="buttons">
+    <button class="btn btn-link btn-large restart">Noch einmal probieren</button>
+    <button class="btn btn-success btn-large next">Nächster Prozess</button>
+</template> 
