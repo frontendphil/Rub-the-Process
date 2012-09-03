@@ -1,5 +1,5 @@
 Hungry = 
-	name: ""
+	id: "hungry"
 	image: "Hungry.png"
 	data: [
 	    {

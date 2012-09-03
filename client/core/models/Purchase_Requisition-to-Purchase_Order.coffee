@@ -2,6 +2,7 @@ PurchaseRequisitionToPurchaseOrder =
 	image: "Purchase_Requisition-to-Purchase_Order.png"
 	width: 900
 	height: 507
+	id: "delivery"
 	data: [
 	    {
 	        "start": {

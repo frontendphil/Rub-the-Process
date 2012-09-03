@@ -2,6 +2,7 @@ DeliveryToPayment =
     image: "Delivery-to-Payment.png"
     width: 874
     height: 502
+    id: "delivery"
     data:[
         {
             "start": {

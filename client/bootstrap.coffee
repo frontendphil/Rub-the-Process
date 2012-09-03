@@ -8,10 +8,33 @@ Template.finished.name = ->
     Session.get("name") or ""
 
 Template.highscore_list.scores = ->
-    Highscores.find({}, {sort: { score : -1 }})
+    if game
+        return Highscores.find({game: game.getId()}, {sort: { score : -1 }})
+
+    Highscores.find()
 
 Template.highscores.rank = ->
     Session.get "rank"
+
+Template.highscores.rendered = ->
+    if game.showScores
+        $(".finished").fadeOut 200, null, =>
+            game.scores.fadeOut 200
+
+            $(".highscores").fadeIn 200, null, =>
+                game.alignElements()
+
+        $(".highscores button.next").on "click", =>
+            $(".highscores").fadeOut 200, null, =>
+                game.scores.fadeIn 200
+
+                game.nextModel()
+
+        $(".highscores button.restart").on "click", =>
+            $(".highscores").fadeOut 200, null, =>
+                game.scores.fadeIn 200
+
+                game.restart()
 
 Handlebars.registerHelper "each_index", (array, fn) ->
     buffer = ""

@@ -88,6 +88,9 @@ class Game
 
         @running = yes
 
+    getId: ->
+        @model.id
+
     snapScore: ->
         $(".score-wrap").transition(
             x: -230
@@ -110,30 +113,14 @@ class Game
         highscoreID = Highscores.insert(
             name: name
             score: Session.get "score"
-        )        
+            game: @model.id
+        )
 
-        Meteor.defer => 
-            $(".finished").fadeOut 200, null, =>
-                @scores.fadeOut 200
+        @showScores = yes
 
-                $(".highscores").fadeIn 200, null, =>
-                    @alignElements()
-
-            $(".highscores button.next").on "click", =>
-                $(".highscores").fadeOut 200, null, =>
-                    @scores.fadeIn 200
-
-                    @nextModel()
-
-            $(".highscores button.restart").on "click", =>
-                $(".highscores").fadeOut 200, null, =>
-                    @scores.fadeIn 200
-
-                    @restart()
-
-            for score in Highscores.find({}, { sort: { score: -1 }}).fetch()
-                if score._id is highscoreID
-                    Session.set("rank", _i + 1)
+        for score in Highscores.find({game: @model.id}, { sort: { score: -1 }}).fetch()
+            if score._id is highscoreID
+                Session.set("rank", _i + 1)
 
     finish: ->
         @running = no
