@@ -3,7 +3,7 @@ import sys
 
 from math import floor
 
-CONNECTORS = ["Association_Undirected", "SequenceFlow"]
+CONNECTORS = ["Association_Undirected", "SequenceFlow", "MessageFlow", "Association_Unidirectional"]
 
 def compute_bounds(filename, factor = 1):
 	file = open(filename, "r")
@@ -31,8 +31,8 @@ def get_child_shapes(element, result, factor, x=0, y=0):
 
 		bounds = child["bounds"]
 
-		offsetX = -40
-		offsetY = -30
+		offsetX = -10
+		offsetY = 0
 
 		el = {
 			"start": {

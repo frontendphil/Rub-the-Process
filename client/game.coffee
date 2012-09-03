@@ -110,17 +110,27 @@ class Game
         )        
 
     addHighscore: (name) ->
-        highscoreID = Highscores.insert(
-            name: name
-            score: Session.get "score"
-            game: @model.id
-        )
+        if @timeout
+            window.clearTimeout(@timeout)
 
-        @showScores = yes
+        if not @addingScore 
+            @addingScore = yes
 
-        for score in Highscores.find({game: @model.id}, { sort: { score: -1 }}).fetch()
-            if score._id is highscoreID
-                Session.set("rank", _i + 1)
+            highscoreID = Highscores.insert(
+                name: name
+                score: Session.get "score"
+                game: @model.id
+            )
+
+            @showScores = yes
+
+            for score in Highscores.find({game: @model.id}, { sort: { score: -1 }}).fetch()
+                if score._id is highscoreID
+                    Session.set("rank", _i + 1)
+
+            @timeout = window.setTimeout(=>
+                @addingScore = no
+            , 1)
 
     finish: ->
         @running = no

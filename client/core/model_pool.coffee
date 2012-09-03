@@ -1,1 +1,1 @@
-models = [Hungry, DeliveryToPayment]
+models = [Delivery, OrderToShipment, Hungry, DeliveryToPayment, AccountCreation]
