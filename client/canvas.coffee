@@ -52,6 +52,7 @@ class Canvas
 
         $(@canvas).css(
             "background-image": "url('" + MEDIA_ROOT + "images/" + @game.getModelImage() + "')"
+            "background-size": @game.getModelDimensions()
         )
 
     initImage: (image) ->

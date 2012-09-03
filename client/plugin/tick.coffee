@@ -14,7 +14,7 @@ class Tick
             height: "32px"
             position: "absolute"
             top: (top - 16) + "px"
-            left: (left - 16) + "px"
+            left: (left) + "px"
         ).fadeIn(300, null, =>
             el = jQuery("<div/>")
 
@@ -25,7 +25,7 @@ class Tick
                 height: "32px"
                 position: "absolute"
                 top: (top - 16) + "px",
-                left: (left - 16) + "px"
+                left: (left) + "px"
             ).show().transition({opacity: 0, scale: 5}, ->
                 el.remove();
             )

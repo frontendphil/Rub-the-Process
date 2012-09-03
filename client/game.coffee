@@ -57,6 +57,9 @@ class Game
     getModelImage: ->
         @model.image
 
+    getModelDimensions: ->
+        @model.width + "px " + @model.height + "px"
+
     reset: ->
         @running = no
         @finished = no
@@ -77,9 +80,13 @@ class Game
         @reset()
         @load(@currentModel + 1)
 
+        @running = yes
+
     restart: ->
         @reset()
         @load(@currentModel)
+
+        @running = yes
 
     snapScore: ->
         $(".score-wrap").transition(
@@ -100,7 +107,7 @@ class Game
         )        
 
     addHighscore: (name) ->
-        Highscores.insert(
+        highscoreID = Highscores.insert(
             name: name
             score: Session.get "score"
         )        
@@ -124,23 +131,28 @@ class Game
 
                     @restart()
 
+            for score in Highscores.find({}, { sort: { score: -1 }}).fetch()
+                if score._id is highscoreID
+                    Session.set("rank", _i + 1)
+
     finish: ->
         @running = no
         @finished = yes
 
-        $(".finished").fadeIn(200);
+        Meteor.defer =>
+            $(".finished").fadeIn(200);
 
-        @snapScore()
+            @snapScore()
 
-        $(".finished button.next").on "click", =>
-            @nextModel()
-            $(".finished").fadeOut(200)
+            $(".finished button.next").on "click", =>
+                @nextModel()
+                $(".finished").fadeOut(200)
 
-        $(".finished button.restart").on "click", =>
-            @restart()
-            $(".finished").fadeOut(200)
+            $(".finished button.restart").on "click", =>
+                @restart()
+                $(".finished").fadeOut(200)
 
-        $(".finished button.save").on "click", =>
-            @addHighscore($(".finished input.name").val())
+            $(".finished button.save").on "click", =>
+                @addHighscore($(".finished input.name").val())
 
-        @alignElements()
+            @alignElements()

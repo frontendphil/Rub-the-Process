@@ -10,6 +10,9 @@ Template.finished.name = ->
 Template.highscore_list.scores = ->
     Highscores.find({}, {sort: { score : -1 }})
 
+Template.highscores.rank = ->
+    Session.get "rank"
+
 Handlebars.registerHelper "each_index", (array, fn) ->
     buffer = ""
 
@@ -36,7 +39,7 @@ Meteor.startup(->
         Meteor.autosubscribe ->
             Meteor.subscribe "highscores"
 
-    $(".score-wrap").append(Meteor.ui.render(->
+    $(".score-wrap").append(Meteor.render(->
         Template.scores()
     ))
 )
